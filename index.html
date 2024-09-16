@@ -3,15 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Viewer</title>
+    <title>Mesh Viewer</title>
 </head>
 
 <body>
+    <canvas id="canvas"></canvas>
+    <script type="module" src="viewer/dist/bundle.js"></script>
 
-    <div>
-        Hi, this is a test
+
+    <div id="license">
+        <p><img src="https://licensebuttons.net/l/by-nc/4.0/88x31.png">
+            The code and the data are licensed under a Creative Commons Attribution-NonCommercial 4.0 International
+            License. 
+        </p>
+
     </div>
-
+    <div id="progressbar">
+        <p id="percentage"></p>
+    </div>
 </body>
 
 </html>
