@@ -1,6 +1,6 @@
 [![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
 # About this Dataset 
-The dataset given in this repository in `mview/models` is licensed under a
+The dataset given in this repository in `viewer/models` is licensed under a
 [Creative Commons Attribution-NonCommercial 4.0 International License][cc-by-nc].
 
 [![CC BY-NC 4.0][cc-by-nc-image]][cc-by-nc]

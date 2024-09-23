@@ -48,7 +48,7 @@ function init() {
         );
     }
 
-    function loadPly(base_path, ply, object) {
+    function loadPly(base_path, ply, object, recenter) {
         plyLoader.load('./viewer/models/' + base_path + "/" + ply,
             function (geometry) {
                 let mesh;
@@ -63,13 +63,13 @@ function init() {
                 mesh.geometry.setAttribute("position", points);
 
                 mesh.name = ply;
-                loadMesh(mesh, base_path, object);
+                loadMesh(mesh, base_path, object, recenter);
             },
             onLoadProgress, onError
         );
     }
 
-    function loadMesh(mesh, base_path, object) {
+    function loadMesh(mesh, base_path, object, recenter) {
         mesh.frustumCulled = false;
         mesh.name = base_path + "/" + mesh.name
         // mesh.src_sensor_space = "";
@@ -81,7 +81,10 @@ function init() {
         // console.log(mesh);
         scene.add(mesh);
         addObjectToGui(mesh, base_path, object);
-        recenterCamera(mesh);
+
+        if(recenter){
+            recenterCamera(mesh);
+        }
 
     }
 
@@ -166,20 +169,21 @@ function init() {
     dataset_object = "cardboard";
     dataset_object_name = "Cardboard"
     dataset_distance = "30";
-    loadPly(dataset_object + "/" + dataset_distance, "radar.ply", "Cardboard (30 cm)")
+    loadPly(dataset_object + "/" + dataset_distance, "radar.ply", "Cardboard (30 cm)", true)
 
     dataset_folder.add(options, "object", obj_list).name("Object").onChange( value => {
         let obj_name = value.toLowerCase().replaceAll(" ", "_");
         dataset_object = obj_name
         dataset_object_name = value;
-        loadPly(dataset_object + "/" + dataset_distance, "radar.ply", dataset_object_name + " (" + dataset_distance + "cm)")
+        loadPly(dataset_object + "/" + dataset_distance, "radar.ply", dataset_object_name + " (" + dataset_distance + "cm)", false)
     });
     dataset_folder.add(options, "distance", ["30 cm", "40 cm", "50 cm"]).name("Object to Sensor Distance").onChange( value  => {
         let distance = value.replaceAll(" cm", "");
         dataset_distance = distance
-        loadPly(dataset_object + "/" + dataset_distance, "radar.ply", dataset_object_name + " (" + dataset_distance + "cm)")
+        loadPly(dataset_object + "/" + dataset_distance, "radar.ply", dataset_object_name + " (" + dataset_distance + "cm)", false)
     });
     dataset_folder.add(options, "reset").name("Reset Camera");
+    
 
 
     function addObjectToGui(object, base_path, object_name) {
@@ -235,7 +239,7 @@ function init() {
             }
 
             if(obj_found == false) {
-                loadPly(base_path, "radar.ply", object_name);
+                loadPly(base_path, "radar.ply", object_name, false);
             }
         });
         sensor_folder.add(object_options, "kinect").name("Enable NIR ToF").onChange(value => {
@@ -249,7 +253,7 @@ function init() {
             }
 
             if(obj_found == false) {
-                loadPly(base_path, "kinect.ply", object_name);
+                loadPly(base_path, "kinect.ply", object_name, false);
             }
         });
         sensor_folder.add(object_options, "realsense").name("Enable Active Stereo").onChange(value => {
@@ -263,7 +267,7 @@ function init() {
             }
 
             if(obj_found == false) {
-                loadPly(base_path, "realsense.ply", object_name);
+                loadPly(base_path, "realsense.ply", object_name, false);
             }
         });
         sensor_folder.add(object_options, "zed").name("Enable Passive Stereo").onChange(value => {
@@ -277,7 +281,7 @@ function init() {
             }
 
             if(obj_found == false) {
-                loadPly(base_path, "zed.ply", object_name);
+                loadPly(base_path, "zed.ply", object_name, false);
             }         });
         sensor_folder.add(object_options, "gt").name("Enable Ground Truth").onChange(value => {
             let obj_found = false;
@@ -290,7 +294,7 @@ function init() {
             }
 
             if(obj_found == false) {
-                loadPly(base_path, "photogrammetry.ply", object_name);
+                loadPly(base_path, "photogrammetry.ply", object_name, false);
             }
         });
 
